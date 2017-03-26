@@ -10,11 +10,8 @@ yum update -y
 yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
 yum install telnet wget -y
 setenforce 0
-yum install epel-release -y
-cd /tmp
-rm -f mratwork*
-rpm -ivh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
-cd /
+wget https://github.com/mustafaramadhan/kloxo/raw/rpms/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
+rpm -ivh mratwork-release-0.0.1-1.noarch.rpm
 yum clean all
 yum update mratwork-* -y
 yum install kloxomr7 -y
@@ -34,28 +31,9 @@ echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
 echo _/                                                                          _/
 echo _/ Installing GUI...                                                        _/
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-yum -y install epel-release
-yum -y update
-yum clean all
-yum -y groupinstall "X Window system"
-yum -y groupinstall "MATE Desktop"
+yum groupinstall "Server with GUI" -y
 systemctl set-default graphical.target
 systemctl isolate graphical.target
-
-echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-echo _/                                                                          _/
-echo _/ Installing XRDP...                                                       _/
-echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-yum -y install epel-release
-yum -y update
-yum clean all
-yum -y install xrdp tigervnc-server
-chcon --type=bin_t /usr/sbin/xrdp
-chcon --type=bin_t /usr/sbin/xrdp-sesman
-firewall-cmd --permanent --zone=public --add-port=3389/tcp
-firewall-cmd --reload
-systemctl start xrdp
-systemctl enable xrdp
 
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo _/                                                                          _/
@@ -73,6 +51,7 @@ yum install glibc-devel.{i686,x86_64} -y
 yum install libgcc.{i686,x86_64} -y
 yum install libX11-devel.{i686,x86_64} -y
 yum install freetype-devel.{i686,x86_64} -y
+yum install gnutls-devel.{i686,x86_64} -y
 yum install libxml2-devel.{i686,x86_64} -y
 yum install libjpeg-turbo-devel.{i686,x86_64} -y
 yum install libpng-devel.{i686,x86_64} -y 
@@ -93,12 +72,19 @@ make install
 cd ../wine64
 make install
 
-wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
-chmod +x winetricks
-sudo cp winetricks /usr/local/bin
-yum install cabextract -y
-winetricks winhttp
-
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+echo _/                                                                          _/
+echo _/ Installing XRDP...                                                       _/
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
+yum install xrdp tigervnc-server -y
+systemctl start xrdp
+systemctl enable xrdp
+firewall-cmd --permanent --zone=public --add-port=3389/tcp
+firewall-cmd --reload
+chcon --type=bin_t /usr/sbin/xrdp
+chcon --type=bin_t /usr/sbin/xrdp-sesman
+netstat -antlup | grep xrdp
 echo  _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo  _/                                                                          _/
 echo  _/ Congratulations. Kloxo-MR has been installed succesfully as 'MASTER'     _/
