@@ -4,11 +4,13 @@ echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
 echo _/                                                                          _/
 echo _/ Installing Kloxo-MR...                                                   _/
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+
 cd /
 yum update -y
 yum install yum-utils yum-priorities vim-minimal subversion curl zip unzip -y
 yum install telnet wget -y
 setenforce 0
+yum install epel-release -y
 cd /tmp
 rm -f mratwork*
 rpm -ivh https://github.com/mustafaramadhan/rpms/raw/master/mratwork/release/neutral/noarch/mratwork-release-0.0.1-1.noarch.rpm --no-check-certificate
@@ -17,6 +19,7 @@ yum clean all
 yum update mratwork-* -y
 yum install kloxomr7 -y
 sh /script/upcp
+
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo _/                                                                          _/
 echo _/ Configuring FTP...                                                       _/
@@ -26,27 +29,15 @@ sh /script/upcp
 sh /script/cleanup
 yum -y update
 service xinetd restart
+
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo _/                                                                          _/
 echo _/ Installing GUI...                                                        _/
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-yum groupinstall "GNOME Desktop" "Graphical Administration Tools" -y
+yum groupinstall "Server with GUI" -y
 systemctl set-default graphical.target
 systemctl isolate graphical.target
-echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-echo _/                                                                          _/
-echo _/ Installing XRDP...                                                       _/
-echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-yum install epel-release -y
-rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
-yum install xrdp tigervnc-server -y
-systemctl start xrdp
-netstat -antlup | grep xrdp
-systemctl enable xrdp
-firewall-cmd --permanent --zone=public --add-port=3389/tcp
-firewall-cmd --reload
-chcon --type=bin_t /usr/sbin/xrdp
-chcon --type=bin_t /usr/sbin/xrdp-sesman
+
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo _/                                                                          _/
 echo _/ Installing WINE...                                                       _/
@@ -68,8 +59,8 @@ yum install libjpeg-turbo-devel.{i686,x86_64} -y
 yum install libpng-devel.{i686,x86_64} -y 
 yum install libXrender-devel.{i686,x86_64} -y
 cd /usr/src
-ver=1.8.7
-wget http://dl.winehq.org/wine/source/1.8/wine-${ver}.tar.bz2 -O wine-${ver}.tar.bz2
+ver=2.0
+wget http://dl.winehq.org/wine/source/2.0/wine-${ver}.tar.bz2 -O wine-${ver}.tar.bz2
 tar xjf wine-${ver}.tar.bz2
 cd wine-${ver}/
 mkdir -p wine32 wine64
@@ -82,6 +73,20 @@ make -j 4
 make install
 cd ../wine64
 make install
+
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+echo _/                                                                          _/
+echo _/ Installing XRDP...                                                       _/
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
+yum install xrdp tigervnc-server -y
+systemctl start xrdp
+systemctl enable xrdp
+firewall-cmd --permanent --zone=public --add-port=3389/tcp
+firewall-cmd --reload
+chcon --type=bin_t /usr/sbin/xrdp
+chcon --type=bin_t /usr/sbin/xrdp-sesman
+netstat -antlup | grep xrdp
 echo  _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo  _/                                                                          _/
 echo  _/ Congratulations. Kloxo-MR has been installed succesfully as 'MASTER'     _/
