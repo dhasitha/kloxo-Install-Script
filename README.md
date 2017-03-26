@@ -9,5 +9,5 @@ sh install.sh
 ```
 
 you can connect to the server at:
-https://IP Address:7777 - secure ssl connection, or 
-http://IP Address:7778 - without ssl. 
+``` https://IP Address:7777 ``` - secure ssl connection, or 
+``` http://IP Address:7778 ``` - without ssl. 
