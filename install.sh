@@ -39,7 +39,6 @@ echo _/ Installing XRDP...                                                      
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 yum install epel-release -y
 rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
-vim /etc/yum.repos.d/xrdp.repo
 yum install xrdp tigervnc-server -y
 systemctl start xrdp
 netstat -antlup | grep xrdp
