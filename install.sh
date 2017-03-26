@@ -26,13 +26,20 @@ sh /script/upcp
 sh /script/cleanup
 yum -y update
 service xinetd restart
-echo Installing GUI...
-yum groupinstall "GNOME Desktop" -y
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+echo _/                                                                          _/
+echo _/ Installing GUI...                                                        _/
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+yum groupinstall "GNOME Desktop" "Graphical Administration Tools" -y
+systemctl set-default graphical.target
+systemctl isolate graphical.target
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo _/                                                                          _/
 echo _/ Installing XRDP...                                                       _/
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-rpm -ivh http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+yum install epel-release -y
+rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
+vim /etc/yum.repos.d/xrdp.repo
 yum install xrdp tigervnc-server -y
 systemctl start xrdp
 netstat -antlup | grep xrdp
