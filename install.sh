@@ -46,8 +46,6 @@ echo _/                                                                         
 echo _/ Installing WINE...                                                       _/
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 cd /
-yum install epel-release -y
-yum install epel-release -y
 set -o errexit
 yum erase wine wine-*
 yum install samba-winbind-clients -y
