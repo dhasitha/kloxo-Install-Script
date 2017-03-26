@@ -3,7 +3,7 @@ This install script will dramatically reduce the time and effort necessary for i
 
 **Example:**
 ```
-wget https://raw.githubusercontent.com/dhasitha/kloxo-Install-Script/master/install.sh
+wget https://raw.githubusercontent.com/dhasitha/kloxo-Install-Script/master/install.sh --no-check-certificate
 chmod +x install.sh
 sh install.sh
 ```
