@@ -46,29 +46,28 @@ echo _/                                                                         
 echo _/ Installing WINE...                                                       _/
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 cd /
+yum install epel-release -y
 set -o errexit
-log='mktemp -t install-wine.XXXXXX.log'
-ver=1.8.5
+ver=1.8.7
 yum erase wine wine-*
-yum install samba-winbind-clients -y 2>&1 >>$log
-yum groupinstall 'Development Tools' -y 2>&1 >> $log
-yum install libjpeg-turbo-devel libtiff-devel freetype-devel -y 2>&1 >> $log
-yum install glibc-devel.{i686,x86_64} libgcc.{i686,x86_64} libX11-devel.{i686,x86_64} freetype-devel.{i686,x86_64} gnutls-devel.{i686,x86_64} libxml2-devel.{i686,x86_64} libjpeg-turbo-devel.{i686,x86_64} libpng-devel.{i686,x86_64} libXrender-devel.{i686,x86_64} -y 2>&1 >> $log
-cd /usr/src 2>&1 >> $log
-wget http://dl.winehq.org/wine/source/1.8/wine-${ver}.tar.bz2 -O wine-${ver}.tar.bz2 2>&1 >> $log
-tar xjf wine-${ver}.tar.bz2 2>&1 >> $log
-cd wine-${ver}/ 2>&1 >> $log
-mkdir -p wine32 wine64 2>&1 >> $log
-cd wine64 2>&1 >> $log
-../configure --enable-win64 2>&1 >> $log
-make -j 4 2>&1 >> $log
-cd ../wine32 2>&1 >> $log
-../configure --with-wine64=../wine64 2>&1 >> $log
-make -j 4 2>&1 >> $log
-make install 2>&1 >> $log
-cd ../wine64 2>&1 >> $log
-make install 2>&1 >> $log
-rm -f $log
+yum install samba-winbind-clients -y
+yum groupinstall 'Development Tools' -y
+yum install libjpeg-turbo-devel libtiff-devel freetype-devel -y
+yum install glibc-devel.{i686,x86_64} libgcc.{i686,x86_64} libX11-devel.{i686,x86_64} freetype-devel.{i686,x86_64} gnutls-devel.{i686,x86_64} libxml2-devel.{i686,x86_64} libjpeg-turbo-devel.{i686,x86_64} libpng-devel.{i686,x86_64} libXrender-devel.{i686,x86_64} -y
+cd /usr/src
+wget http://dl.winehq.org/wine/source/1.8/wine-${ver}.tar.bz2 -O wine-${ver}.tar.bz2
+tar xjf wine-${ver}.tar.bz2
+cd wine-${ver}/
+mkdir -p wine32 wine64
+cd wine64
+../configure --enable-win64
+make -j 4
+cd ../wine32
+../configure --with-wine64=../wine64
+make -j 4
+make install
+cd ../wine64
+make install
 echo  _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo  _/                                                                          _/
 echo  _/ Congratulations. Kloxo-MR has been installed succesfully as 'MASTER'     _/
