@@ -47,14 +47,24 @@ echo _/ Installing WINE...                                                      
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 cd /
 yum install epel-release -y
+yum install epel-release -y
 set -o errexit
-ver=1.8.7
 yum erase wine wine-*
 yum install samba-winbind-clients -y
 yum groupinstall 'Development Tools' -y
-yum install libjpeg-turbo-devel libtiff-devel freetype-devel -y
-yum install glibc-devel.{i686,x86_64} libgcc.{i686,x86_64} libX11-devel.{i686,x86_64} freetype-devel.{i686,x86_64} gnutls-devel.{i686,x86_64} libxml2-devel.{i686,x86_64} libjpeg-turbo-devel.{i686,x86_64} libpng-devel.{i686,x86_64} libXrender-devel.{i686,x86_64} -y
+yum install libjpeg-turbo-devel -y
+yum install libtiff-devel -y
+yum install freetype-devel -y
+yum install glibc-devel.{i686,x86_64} -y
+yum install libgcc.{i686,x86_64} -y
+yum install libX11-devel.{i686,x86_64} -y
+yum install freetype-devel.{i686,x86_64} -y
+yum install libxml2-devel.{i686,x86_64} -y
+yum install libjpeg-turbo-devel.{i686,x86_64} -y
+yum install libpng-devel.{i686,x86_64} -y 
+yum install libXrender-devel.{i686,x86_64} -y
 cd /usr/src
+ver=1.8.7
 wget http://dl.winehq.org/wine/source/1.8/wine-${ver}.tar.bz2 -O wine-${ver}.tar.bz2
 tar xjf wine-${ver}.tar.bz2
 cd wine-${ver}/
