@@ -34,9 +34,28 @@ echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_
 echo _/                                                                          _/
 echo _/ Installing GUI...                                                        _/
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-yum groupinstall "Server with GUI" -y
+yum -y install epel-release
+yum -y update
+yum clean all
+yum -y groupinstall "X Window system"
+yum -y groupinstall "MATE Desktop"
 systemctl set-default graphical.target
 systemctl isolate graphical.target
+
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+echo _/                                                                          _/
+echo _/ Installing XRDP...                                                       _/
+echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
+yum -y install epel-release
+yum -y update
+yum clean all
+yum -y install xrdp tigervnc-server
+chcon --type=bin_t /usr/sbin/xrdp
+chcon --type=bin_t /usr/sbin/xrdp-sesman
+firewall-cmd --permanent --zone=public --add-port=3389/tcp
+firewall-cmd --reload
+systemctl start xrdp
+systemctl enable xrdp
 
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo _/                                                                          _/
@@ -74,19 +93,12 @@ make install
 cd ../wine64
 make install
 
-echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-echo _/                                                                          _/
-echo _/ Installing XRDP...                                                       _/
-echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-rpm -Uvh http://li.nux.ro/download/nux/dextop/el7/x86_64/nux-dextop-release-0-1.el7.nux.noarch.rpm
-yum install xrdp tigervnc-server -y
-systemctl start xrdp
-systemctl enable xrdp
-firewall-cmd --permanent --zone=public --add-port=3389/tcp
-firewall-cmd --reload
-chcon --type=bin_t /usr/sbin/xrdp
-chcon --type=bin_t /usr/sbin/xrdp-sesman
-netstat -antlup | grep xrdp
+wget  https://raw.githubusercontent.com/Winetricks/winetricks/master/src/winetricks
+chmod +x winetricks
+sudo cp winetricks /usr/local/bin
+yum install cabextract -y
+winetricks winhttp
+
 echo  _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo  _/                                                                          _/
 echo  _/ Congratulations. Kloxo-MR has been installed succesfully as 'MASTER'     _/
