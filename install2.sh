@@ -9,7 +9,7 @@ yum -y install epel-release
 yum -y update
 yum clean all
 yum groupinstall "GNOME Desktop" "Graphical Administration Tools" -y
-systemctl set-default graphical.target
+# systemctl set-default graphical.target
 # systemctl isolate graphical.target
 # sudo yum update -y
 
