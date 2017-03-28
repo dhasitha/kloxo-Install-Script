@@ -9,9 +9,9 @@ yum -y install epel-release
 yum -y update
 yum clean all
 yum groupinstall "GNOME Desktop" "Graphical Administration Tools" -y
-systemctl set-default graphical.target
-systemctl isolate graphical.target
-sudo yum update -y
+# systemctl set-default graphical.target
+# systemctl isolate graphical.target
+# sudo yum update -y
 
 echo _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 echo _/                                                                          _/
@@ -77,22 +77,5 @@ yum update mratwork-* -y
 yum install kloxomr7 -y
 sh /script/upcp
 
-echo  _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
-echo  _/                                                                          _/
-echo  _/ Congratulations. Kloxo-MR has been installed succesfully as 'MASTER'     _/
-echo  _/                                                                          _/
-echo  _/ You can connect to the server at:                                        _/
-echo  _/     https://IP-Address:7777 - secure ssl connection, or                  _/
-echo  _/     http://IP-Address:7778 - normal one.                                 _/
-echo  _/                                                                          _/
-echo  _/ The login and password are 'admin' and 'admin' for new install.          _/
-echo  _/ After Logging in, you will have to change your password to               _/
-echo  _/ something more secure.                                                   _/
-echo  _/                                                                          _/
-echo  _/ - Run 'sh /script/mysql-convert --engine=myisam' to minimize MySQL       _/
-echo  _/   memory usage. Or, go to 'Webserver Configure'                          _/
-echo  _/ - Run 'sh /script/make-slave' for change to 'SLAVE'                      _/
-echo  _/                                                                          _/
-echo  _/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/_/
 read -p "Installation Complete, press [enter] to reboot..."
 reboot
